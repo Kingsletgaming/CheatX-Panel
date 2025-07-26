@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CheatX Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    /* Film roll effect */
+    .film-strip {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      display: flex;
+      animation: roll 60s linear infinite;
+      z-index: -1;
+      opacity: 0.2;
+      filter: grayscale(100%) brightness(70%);
+    }
+
+    .film-strip img {
+      width: auto;
+      height: 100vh;
+      object-fit: cover;
+      margin-right: 2px;
+    }
+
+    @keyframes roll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .glass {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 1.2s ease-in-out both;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-white relative">
+
+  <!-- Moving collage background -->
+  <div class="film-strip">
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398558750469656708/1102941.jpg?ex=6885ccd6&is=68847b56&hm=416d35d5ec04299a23255e4b1a94e770c097fd420097e9c05a1b435efd4b00ee&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398558749857419385/1335815.jpeg?ex=6885ccd5&is=68847b55&hm=2438f389da7c822390f84378ff52be483df02c7651541e05dc60c2ad48ef4d12&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398558749186068533/1091081.jpg?ex=6885ccd5&is=68847b55&hm=47e12b0511694546607a7a9c19ca289dbd80b128795cc228699cc26347f6f449&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398558250261020682/1330785.jpeg?ex=6885cc5e&is=68847ade&hm=fb026c405814f3aacc32b771d8d37bff828a9291d3835d357ebda701c167c44d&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398558248860385290/1102940.jpg?ex=6885cc5e&is=68847ade&hm=c4efe4d41a89547f3fd4c091dce45ca01df9dabb45b1cf79b6405d2aab419652&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398558247560155197/1091083.jpg?ex=6885cc5e&is=68847ade&hm=dbeb7d14b7f7a08f7bc0238adf73d62df61e28be69a3f03d9c3bfa4749ecf112&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398558248264536136/1331017.jpeg?ex=6885cc5e&is=68847ade&hm=ef7894766e434e10df8e3562eea864d3db2297d059bd0e36c59dc1a5a46ab69c&=&format=webp&width=1521&height=856" />
+    <!-- Repeat for smooth loop -->
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398559401068990555/1394511.jpg?ex=6885cd71&is=68847bf1&hm=5a685fed4fc0af8fb87e2bf55a7edfefa8659f26aa82f937db1e4b7b8f80388b&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398559401966567444/1091084.jpg?ex=6885cd71&is=68847bf1&hm=5129c66e0e876ff524dc8be7c578061756ddeadfbdb275d282ac74d58d4d3271&=&format=webp&width=1521&height=856" />
+    <img src="https://media.discordapp.net/attachments/1356339542336077944/1398559402658762762/1337295.jpeg?ex=6885cd71&is=68847bf1&hm=18f2adef60874cc4cd3b4338283a7574323f4b86189f4b40da62c939c1118a88&=&format=webp&width=1521&height=856" />
+  </div>
+
+  <!-- Glassmorphic Sign Up Card -->
+  <div class="glass relative z-10 rounded-2xl p-8 w-full max-w-sm shadow-xl text-center">
+    <div class="text-4xl font-bold mb-2 text-green-500 float">CheatX</div>
+    <h2 class="text-xl font-semibold mb-2">Sign Up</h2>
+    <p class="text-sm mb-6 opacity-80">Use Gmail login to continue</p>
+    <a href="/google_login"
+      class="flex items-center justify-center w-full bg-black border border-gray-600 text-white font-medium py-2 rounded hover:bg-gray-800 hover:shadow-[0_0_10px_2px_rgba(255,255,255,0.2)] transition duration-300 ease-in-out"
+    >
+      <img src="https://developers.google.com/identity/images/g-logo.png"
+        class="w-5 h-5 mr-2 bg-white rounded-full p-0.5" alt="Google logo">
+      Sign Up with Google
+    </a>
+  </div>
+
+</body>
+</html>
