@@ -130,6 +130,5 @@ def oauth2callback():
 
     return redirect(url_for('dashboard'))
 
-# ❌ REMOVE this block so it doesn’t run locally
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
