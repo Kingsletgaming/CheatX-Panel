@@ -99,7 +99,14 @@ def google_login():
         scopes=SCOPES
     )
     flow.redirect_uri = url_for('oauth2callback', _external=True)
-    authorization_url, state = flow.authorization_url(access_type='offline', include_granted_scopes='true')
+
+    print("== REDIRECT URI being used by Flask ==")
+    print(flow.redirect_uri)  # 👈 Add this line
+
+    authorization_url, state = flow.authorization_url(
+        access_type='offline',
+        include_granted_scopes='true'
+    )
     session['state'] = state
     return redirect(authorization_url)
 
