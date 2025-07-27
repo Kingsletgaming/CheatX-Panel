@@ -9,7 +9,7 @@ import pickle
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+app.secret_key = os.environ.get("-a_1&kqa+%!_hb^=&2pqa_k4mafpjt@ire-z)$1%v!q12@ad20", "your_strong_fallback_secret_key")
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1398007512640258088/zBCBlGVdhqmrFkIAvD6pjq05XHRl7NyfewUnf7Q1xkZ0Ja9UGZe-4ZgQjh-QSMat9791"
 SCOPES = [
