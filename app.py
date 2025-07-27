@@ -5,9 +5,9 @@ import google.auth.transport.requests
 import requests
 import os
 import pickle
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# Required to allow HTTP for local, but you're on HTTPS so disable this
-# os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # ❌ REMOVE THIS for production
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "your_strong_fallback_secret_key")
