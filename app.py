@@ -6,11 +6,12 @@ import requests
 import os
 import pickle
 from werkzeug.middleware.proxy_fix import ProxyFix
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
 
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "your_strong_fallback_secret_key")
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1398007512640258088/zBCBlGVdhqmrFkIAvD6pjq05XHRl7NyfewUnf7Q1xkZ0Ja9UGZe-4ZgQjh-QSMat9791"
 SCOPES = [
