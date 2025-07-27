@@ -98,10 +98,10 @@ def google_login():
         'client_secret.json',
         scopes=SCOPES
     )
+
     flow.redirect_uri = url_for('oauth2callback', _external=True)
 
-    print("== REDIRECT URI being used by Flask ==")
-    print(flow.redirect_uri)  # 👈 Add this line
+    print("🚀 REDIRECT URI used by Flask:", flow.redirect_uri)  # 👈 ADD THIS
 
     authorization_url, state = flow.authorization_url(
         access_type='offline',
