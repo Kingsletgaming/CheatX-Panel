@@ -95,7 +95,7 @@ def google_login():
         'client_secret.json',
         scopes=SCOPES
     )
-    flow.redirect_uri = "https://cheatx-panel.onrender.com/oauth2callback"  # ✅ Use fixed URI
+    flow.redirect_uri = "https://cheatx-panel-production.up.railway.app/oauth2callback"  # ✅ Use fixed URI
     authorization_url, state = flow.authorization_url(
         access_type='offline',
         include_granted_scopes='true'
@@ -114,7 +114,7 @@ def oauth2callback():
         scopes=SCOPES,
         state=state_in_session
     )
-    flow.redirect_uri = "https://cheatx-panel.onrender.com/oauth2callback"  # ✅ Use fixed URI
+    flow.redirect_uri = "https://cheatx-panel-production.up.railway.app/oauth2callback"  # ✅ Use fixed URI
     flow.fetch_token(authorization_response=request.url)
     credentials = flow.credentials
 
